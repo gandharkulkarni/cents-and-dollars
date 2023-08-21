@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Deposit Money</title>
+</head>
+<body>
+<div th:insert="navigationbar :: employeeNavbar"></div>
+<div class="container" align="center">
+    <div class="row justify-content-center">
+        <form action="#" th:action="@{/employee/depositCash}" method="post">
+            <div class="form-group">
+                <label for="accountNumber">Account Number</label>
+                <br>
+                <input type="number" id="accountNumber" class="form-control" min="0" name="accountNumber" placeholder="Account Number"
+                       required>
+                <div class="alert alert-danger" th:if="${invalidAccountNumber}">
+                    <span>Invalid account number</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <br>
+                <input type="number" id="amount" class="form-control" name="amount" min="1" placeholder="amount" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-outline-info" value="Deposit Cash">
+            </div>
+            <div class="form-group alert alert-success" th:if="${successfulDeposit}">
+                <span>Money deposit successful!</span>
+            </div>
+        </form>
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Transfer Money</title>
+</head>
+<body>
+<div th:insert="navigationbar :: customerNavbar"></div>
+<center>
+    <h1>Welcome</h1>
+    <h1 th:text="${loggedInUser.firstName}"></h1>
+    <br>
+    <hr>
+    <h3>Account Details</h3>
+    <table class="table table-hover table-bordered">
+        <thead style="background:#f1e8e6">
+        <tr>
+            <th scope="col">Account #</th>
+            <th scope="col">Balance</th>
+        </tr>
+        </thead>
+        <tbody style="background:white">
+        <tr>
+            <th scope="row" th:text="${accountNumber}"></th>
+            <td th:text="${accountBalance}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <hr>
+    <div class="container" align="center">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-md-offset-3">
+                <form method="post" action="#" th:action="@{/customer/transferMoney}">
+                    <div class="form-group">
+                        <label for="accountNumber">Beneficiaries</label>
+                        <br>
+                        <select class="form-control" id="accountNumber" name="accountNumber">
+                            <option value="0">Select beneficiary</option>
+                            <option th:each="beneficiary : ${beneficiaries}" th:value="${beneficiary.key}"
+                                    th:text="${beneficiary.value}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Amount</label>
+                        <br>
+                        <input type="number" id="amount" class="form-control" name="amount" min="1" placeholder="amount"
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-outline-info" value="Transfer">
+                    </div>
+                    <div class="form-group alert alert-success" th:if="${successfulTransfer}">
+                        <span>Money transfer successful!</span>
+                    </div>
+                    <div class="form-group alert alert-warning" th:if="${invalidAccountNumber}">
+                        <span>Please select a beneficiary</span>
+                    </div>
+                    <div class="form-group alert alert-danger" th:if="${insufficientBalance}">
+                        <span>Insufficient funds. Transfer unsuccessful</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</center>
+</body>
+</html>

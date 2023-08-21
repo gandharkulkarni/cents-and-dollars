@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th ="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Transactions</title>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/css/styles.css">
+<!--
+  External JS libraries
+  1. JSPDF -(Source : https://cdnjs.com/libraries/jspdf) - Convert HTML page to PDF
+  2. HTML2Canvas -(Source: https://cdnjs.com/libraries/html2canvas) - Captures snapshot of HTML page with styling
+-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    function downloadPDF(){
+      document.getElementById('downloadBtn').innerHTML = 'Downloading';
+      let table = document.querySelector('#transactionTable');
+      if(table.rows.length>1){
+        html2canvas(table).then(function (canvas) {
+          var pageWidth = canvas.width;
+          var pageHeight = canvas.height;
+          var ratio = pageHeight/pageWidth;
+          var img = canvas.toDataURL("image/png", pageWidth, pageHeight);
+          var doc = new jsPDF('p','pt','a4');
+          var docWidth = doc.internal.pageSize.width;
+          var docHeight = docWidth*ratio;
+          doc.addImage(img, 'JPEG', 1, 1, docWidth, docHeight);
+          doc.save('userTransaction.pdf');
+        });
+      }
+      document.getElementById('downloadBtn').innerHTML = 'Download';
+    }
+  </script>
+</head>
+<body>
+<div th:insert="navigationbar :: customerNavbar">  </div>
+<center>
+  <h1>Welcome</h1><h1 th:text="${loggedInUser.firstName}"></h1>
+  <br><hr>
+  <h3>Transaction Statement</h3>
+  <br><hr>
+</center>
+<button id="downloadBtn" class="btn btn-outline-light" onclick="downloadPDF();">Download</button><br><br>
+<table class="table table-hover table-bordered" id="transactionTable">
+  <thead style="background:#f1e8e6">
+  <tr>
+    <th scope="col">Transaction Id</th>
+    <th scope="col">Transaction Type</th>
+    <th scope="col">Description</th>
+    <th scope="col">Amount</th>
+  </tr>
+  </thead>
+  <tbody style="background:white">
+  <tr th:each="transaction: ${userTransactions}">
+    <th scope="row" th:text="${transaction.transactionId}"></th>
+    <td th:text="${transaction.transactionType}"></td>
+    <td th:text="${transaction.transactionDescription}"></td>
+    <td th:text="${transaction.transactionAmount}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

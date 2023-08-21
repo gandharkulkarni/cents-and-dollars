@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th ="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit details</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div th:insert="navigationbar :: customerNavbar">  </div>
+<center>
+    <h1>Welcome</h1><h1 th:text="${loggedInUser.firstName}"></h1>
+    <br><hr>
+    <h3>Edit details</h3>
+    <br><hr>
+</center>
+<div class="row justify-content-center">
+    <div class="col-md-6 col-md-offset-3">
+        <form action="#" th:action="@{/customer/updateUserDetails}" th:object="${loggedInUser}" method="post">
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <br>
+                <input class="form-control" type="text" id="firstName" name="firstName"
+                       placeholder="First Name"
+                       autofocus="autofocus" pattern="[a-zA-Z]{3,15}" th:field="${loggedInUser.firstName}" title="Only characters allowed" required readonly>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <br>
+                <input class="form-control" type="text" pattern="[a-zA-Z]{3,15}" title="Only characters allowed" id="lastName" name="lastName" th:field="${loggedInUser.lastName}"
+                       placeholder="Last Name"
+                       required readonly>
+            </div>
+            <div class="form-group">
+                <label for="userAddress">Address</label>
+                <br>
+                <input class="form-control" type="text" id="userAddress" name="userAddress" th:field="${loggedInUser.userAddress}"
+                       placeholder="Address"
+                       required>
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <br>
+                <input class="form-control" type="text" pattern="[a-zA-Z ]{3,15}" title="Only characters allowed" id="city" name="city" th:field="${loggedInUser.city}" placeholder="City"
+                       required>
+            </div>
+            <div class="form-group">
+                <label for="postalCode">Postal Code</label>
+                <br>
+                <input class="form-control" type="number" pattern="[0-9]{4,10}" title="Only numbers allowed" id="postalCode" name="postalCode" th:field="${loggedInUser.postalCode}"
+                       placeholder="Postal Code"
+                       required>
+            </div>
+            <div class="form-group">
+                <label for="emailId">Email Address</label>
+                <br>
+                <input class="form-control" type="email" id="emailId" name="emailId" th:field="${loggedInUser.emailId}"
+                       placeholder="Email Id"
+                       required>
+            </div>
+<!--            <div class="form-group">-->
+<!--                <label for="password">Password</label>-->
+<!--                <br>-->
+<!--                <input class="form-control" type="password" id="password" name="password" th:field="${loggedInUser.password}"-->
+<!--                       placeholder="Password"-->
+<!--                       required onkeyup="check();">-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label for="confirmPassword">Confirm Password</label>-->
+<!--                <br>-->
+<!--                <input class="form-control" type="password" id="confirmPassword" name="confirmPassword"-->
+<!--                       placeholder="Confirm Password"-->
+<!--                       required onkeyup="check();">-->
+<!--                <span id='message'></span>-->
+<!--            </div>-->
+            <div class="form-group">
+                <input type="submit" class="btn btn-outline-info" value="Update">
+            </div>
+
+        </form>
+        <div class="alert alert-success" th:if="${updateSuccess}">
+            <span>User details updated successfully</span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
